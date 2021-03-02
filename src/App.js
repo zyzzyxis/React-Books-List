@@ -9,14 +9,15 @@ import axios from 'axios';
 function App() {
   const [books, setBooks] = useState([])
   const [loading, setLoading] = useState(true)
-  const [showForm, setShowForm] = useState(false)
+  // const [showForm, setShowForm] = useState(false)
 
   //do stuff when loads
   useEffect(() => {
     // do stuff
     loadData()
   }, [])  
-  const loadData = async () => {
+  
+  const loadData = async () => { /*this is around the 20 minute mark YT */
     try{
       console.log('getting dat')
       let res = await axios.get('https://fakerapi.it/api/v1/books?_quantity=5')
@@ -29,11 +30,20 @@ function App() {
       setLoading(false)
     }
   }
+
+  const deleteBook = (isbn) => {
+    console.log(books)
+    let filterBooks = books.filter( book => book.isbn !== isbn )
+    setBooks(filterBooks)
+    console.log(filterBooks)
+  }
  
   return (
     <div className="App">
       <h1>NavBar</h1>
-      <Books books={books} />
+      {/* <button onClick={() => setShowForm(!{deleteBook}>Click to delete this book</button> */}
+      {loading && <p>Loading</p>}
+      <Books deleteBook={deleteBook} books={books} />
     </div>
   );
 }
