@@ -1,15 +1,17 @@
 
 import './App.css';
 import React, {useState, useEffect} from 'react';
-import Books from './Books'
+import Books from './Books';
 import axios from 'axios';
+import BookForm from './BookForm';
+
 
 
 
 function App() {
   const [books, setBooks] = useState([])
   const [loading, setLoading] = useState(true)
-  // const [showForm, setShowForm] = useState(false)
+  const [showForm, setShowForm] = useState(false)
 
   //do stuff when loads
   useEffect(() => {
@@ -38,10 +40,19 @@ function App() {
     console.log(filterBooks)
   }
  
+  const addBook = (book) => {
+    console.log('added book titled')
+    console.log(book)
+    let isbnBook = {...book, isbn:Math.random()}
+    setBooks([isbnBook, ...books])
+  }
+
   return (
     <div className="App">
       <h1>NavBar</h1>
-      {/* <button onClick={() => setShowForm(!{deleteBook}>Click to delete this book</button> */}
+      <h2>Click Show to Add a Book</h2>
+      <button onClick={() => setShowForm(!showForm)}> {showForm ? "hide" : 'Show'}</button>
+      {showForm && <BookForm addBook={addBook} />}
       {loading && <p>Loading</p>}
       <Books deleteBook={deleteBook} books={books} />
     </div>
